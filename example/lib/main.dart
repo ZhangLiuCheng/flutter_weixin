@@ -7,50 +7,69 @@ import 'package:flutter_weixin/flutter_weixin.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+    @override
+    _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+    String _platformVersion = 'Unknown';
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FlutterWeixin.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+    @override
+    void initState() {
+        super.initState();
+        initPlatformState();
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
+    // Platform messages are asynchronous, so we initialize in an async method.
+    Future<void> initPlatformState() async {
+        String platformVersion;
+        // Platform messages may fail, so we use a try/catch PlatformException.
+        try {
+            platformVersion = await FlutterWeixin.platformVersion;
+        } on PlatformException {
+            platformVersion = 'Failed to get platform version.';
+        }
 
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+        // If the widget was removed from the tree while the asynchronous platform
+        // message was in flight, we want to discard the reply rather than calling
+        // setState to update our non-existent appearance.
+        if (!mounted) return;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
-    );
-  }
+        setState(() {
+            _platformVersion = platformVersion;
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+            home: Scaffold(
+                appBar: AppBar(
+                    title: const Text('Plugin example app'),
+                ),
+                body: Center(
+                    child: Column(
+                        children: <Widget>[
+                            new FlatButton(
+                                child: new Text('初始化'),
+                                onPressed: () {
+                                    FlutterWeixin.init();
+                                },
+                            ),
+                            new FlatButton(
+                                child: new Text('分享给好友'),
+                                onPressed: () {
+                                    FlutterWeixin.shareToSession().then((result) {
+                                        print("微信分享成功");
+                                    }).catchError((err) {
+                                        print("微信分享失败 $err");
+                                    });
+                                },
+                            )
+                        ],
+                    )
+                ),
+            ),
+        );
+    }
 }

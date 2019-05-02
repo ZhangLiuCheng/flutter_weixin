@@ -10,4 +10,12 @@ class FlutterWeixin {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static Future init() async {
+    return await _channel.invokeMethod("init", {"wxAppId" : "wx0a5d51592ca9e6dd"});
+  }
+
+  static Future shareToSession() async {
+    return await _channel.invokeMethod('shareToSession');
+  }
 }
