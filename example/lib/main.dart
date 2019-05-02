@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
 
     @override
     Widget build(BuildContext context) {
+        String imgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556820992134&di=883e7fa3f97f991a314342b5d8ddb329&imgtype=0&src=http%3A%2F%2Fs15.sinaimg.cn%2Fmw690%2F0066UWNtgy6Viz3mEBoce%26690";
         return MaterialApp(
             home: Scaffold(
                 appBar: AppBar(
@@ -59,7 +60,17 @@ class _MyAppState extends State<MyApp> {
                             new FlatButton(
                                 child: new Text('分享给好友'),
                                 onPressed: () {
-                                    FlutterWeixin.shareToSession().then((result) {
+                                    FlutterWeixin.shareToSession(title : "friend test title", description: "friend test desciption", imgUrl: imgUrl).then((result) {
+                                        print("微信分享成功");
+                                    }).catchError((err) {
+                                        print("微信分享失败 $err");
+                                    });
+                                },
+                            ),
+                            new FlatButton(
+                                child: new Text('分享到朋友圈'),
+                                onPressed: () {
+                                    FlutterWeixin.shareToTimeline(title : "pyq test title", description: "pyq test desciption", imgUrl: null).then((result) {
                                         print("微信分享成功");
                                     }).catchError((err) {
                                         print("微信分享失败 $err");

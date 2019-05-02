@@ -1,13 +1,25 @@
 package com.boiling.point.flutter_weixin;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -52,9 +64,10 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
             APP_ID = call.argument("wxAppId");
             this.regToWx(result);
         } else if (call.method.equals("shareToSession")) {
-            this.shareToSession(result);
+//            Map<String, String> parmas = call.arguments();
+            this.shareToSession(result, (Map<String, String>)call.arguments());
         }  else if (call.method.equals("shareToTimeline")) {
-            this.shareTimeline(result);
+            this.shareToTimeline(result, (Map<String, String>)call.arguments());
         } else {
             result.notImplemented();
         }
@@ -73,50 +86,131 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
         }
     }
 
-    private void shareToSession(Result result) {
-        this.share(result, SendMessageToWX.Req.WXSceneSession);
+    private void shareToSession(Result result, Map<String, String> params) {
+        this.share(result, SendMessageToWX.Req.WXSceneSession, params);
     }
 
-    private void shareTimeline(Result result) {
-        this.share(result, SendMessageToWX.Req.WXSceneTimeline);
+    private void shareToTimeline(Result result, Map<String, String> params) {
+        this.share(result, SendMessageToWX.Req.WXSceneTimeline, params);
     }
 
-    private void share(Result result, int scene) {
+    private void share(final Result result, final int scene, final Map<String, String> params) {
+        Log.e("TAG", "========>" + params);
         if (!isInited) {
             result.error("微信分享失败", "-1", "FlutterWeixin没有初始化");
             return;
         }
         FlutterWeixinPlugin.sResult = result;
-        WXTextObject textObj = new WXTextObject();
-        textObj.text = "title1";
 
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = textObj;
-        msg.title = "Will be ignored";
-        msg.description = "i am description";
+        final String imgUrl = params.get("imgUrl");
+        final String imgPath = params.get("imgPath");
 
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = "buildTransaction ----  text";
-        req.message = msg;
-        req.scene = scene;
-        boolean reqResult = sApi.sendReq(req);
-//        Log.e("TAG", "微信分享结果:" + reqResult);
+        if (TextUtils.isEmpty(imgUrl) && TextUtils.isEmpty(imgPath)) {
+            WXTextObject textObj = new WXTextObject();
+            textObj.text = params.get("title");
 
-//        Bitmap bmp = BitmapFactory.decodeResource(sActivity.getResources(), R.drawable.send_img);
+            final WXMediaMessage msg = new WXMediaMessage();
+            msg.mediaObject = textObj;
+            msg.description = params.get("description");
+
+            final SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.message = msg;
+            req.scene = scene;
+            sApi.sendReq(req);
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+//                    try {
+//                        Log.e("TAG", "微信分享 ----------1111111");
 //
-//        WXImageObject imgObj = new WXImageObject(bmp);
-//        WXMediaMessage msg = new WXMediaMessage();
-//        msg.mediaObject = imgObj;
+//                        WXImageObject imgObj = new WXImageObject();
+//                        final WXMediaMessage msg = new WXMediaMessage();
+//                        msg.mediaObject = imgObj;
 //
-//        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-//        bmp.recycle();
-//        msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+//                        final SendMessageToWX.Req req = new SendMessageToWX.Req();
+//                        req.message = msg;
+//                        req.scene = scene;
 //
-//        SendMessageToWX.Req req = new SendMessageToWX.Req();
-//        req.transaction = buildTransaction("img");
-//        req.message = msg;
-//        req.scene = mTargetScene;
-//        req.userOpenId = getOpenId();
-//        sApi.sendReq(req);
+//                        Bitmap thumb;
+//                        if (!TextUtils.isEmpty(imgUrl)) {
+//                            thumb =  BitmapFactory.decodeStream(new URL(imgUrl).openStream());
+//                        } else if (!TextUtils.isEmpty(imgPath)) {
+//                            thumb =  BitmapFactory.decodeStream(new FileInputStream(imgUrl));
+//                        } else {
+//                            return;
+//                        }
+//                        Bitmap thumbBmp = Bitmap.createScaledBitmap(thumb, 150, 150, true);
+//                        thumb.recycle();
+//                        msg.thumbData = bmpToByteArray(thumbBmp, true);
+//                        Log.e("TAG", "微信分享 ----------2222222 " + msg.thumbData);
+//
+//                        boolean reqResult = sApi.sendReq(req);
+//                        Log.e("TAG", "微信分享结果:" + reqResult);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        result.error("微信分享失败", "-1", e.toString());
+//                    }
+
+                    try {
+                        WXImageObject imgObj = new WXImageObject();
+                        final WXMediaMessage msg = new WXMediaMessage();
+                        msg.mediaObject = imgObj;
+
+                        final SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.message = msg;
+                        req.scene = scene;
+
+                        Bitmap thumb;
+                        if (!TextUtils.isEmpty(imgUrl)) {
+                            thumb =  BitmapFactory.decodeStream(new URL(imgUrl).openStream());
+                        } else if (!TextUtils.isEmpty(imgPath)) {
+                            thumb =  BitmapFactory.decodeStream(new FileInputStream(imgUrl));
+                        } else {
+                            return;
+                        }
+//                        Bitmap thumbBmp = Bitmap.createScaledBitmap(thumb, 150, 150, true);
+//                        thumb.recycle();
+//                        imgObj.imageData = bmpToByteArray(thumbBmp, true);
+
+                        imgObj.imageData = compressImage(thumb, 1024);
+
+                        boolean reqResult = sApi.sendReq(req);
+                        if (reqResult != true) {
+                            result.error("微信分享失败", "-1", "sendReq为false");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        result.error("微信分享失败", "-1", e.toString());
+                    }
+                }
+            }).start();
+        }
+    }
+
+    private byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 10, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+        byte[] result = output.toByteArray();
+        output.close();
+        return result;
+    }
+
+    public static byte[] compressImage(Bitmap image, int size) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int options = 90;
+        while (baos.toByteArray().length / 1024 > size) {
+            baos.reset();
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            options -= 10;
+        }
+//        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
+//        return bitmap;
+        return baos.toByteArray();
     }
 }
