@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_weixin (0.0.1):
+    - Flutter
+    - WechatOpenSDK
+  - WechatOpenSDK (1.8.4)
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_weixin (from `.symlinks/plugins/flutter_weixin/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - WechatOpenSDK
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  flutter_weixin:
+    :path: ".symlinks/plugins/flutter_weixin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_weixin: 971d7aa8bd98f20c3af3e6d4e5519bad9be14a15
+  WechatOpenSDK: 9b721089507c895d05f997408c30bb6e6f5f9b60
+
+PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
+
+COCOAPODS: 1.6.0
