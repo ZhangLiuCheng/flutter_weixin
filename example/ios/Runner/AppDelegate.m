@@ -19,4 +19,7 @@
     return  [FlutterWeixinPlugin handleOpenURL:url];
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
+    return  [FlutterWeixinPlugin handleOpenURL:url];
+}
 @end

@@ -30,7 +30,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 public class FlutterWeixinPlugin implements MethodCallHandler {
 
-    public static String APP_ID = "wx0a5d51592ca9e6dd";
+    public static String APP_ID;
 
     private static Activity sActivity;
     private static Result sResult;
@@ -39,16 +39,14 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
 
     private boolean isInited = false;
 
-    public static void processShareResult(int errCode) {
-        try {
-            if (errCode == 0) {
-                sResult.success("微信分享成功");
-            } else {
-                sResult.error("微信分享失败", "-1", "错误码" + errCode);
-            }
-        } catch (Exception ex) {
-            sResult.error("微信分享异常", "-1", ex.toString());
+    public static void processShareResult(int errCode, String errStr) {
+        if (sResult == null) return;
+        if (errCode == 0) {
+            sResult.success("微信分享成功");
+        } else {
+            sResult.error("微信分享失败", errCode + "", errStr);
         }
+        sResult = null;
     }
 
     public static void registerWith(Registrar registrar) {
@@ -74,15 +72,13 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
     }
 
     private void regToWx(Result result) {
-        try {
-            isInited = true;
-            sApi = WXAPIFactory.createWXAPI(sActivity, APP_ID, true);
-            boolean re = sApi.registerApp(APP_ID);
+        sApi = WXAPIFactory.createWXAPI(sActivity, APP_ID, true);
+        isInited = sApi.registerApp(APP_ID);
+        Log.e("TAG", "微信初始化结果:" + isInited);
+        if (isInited) {
             result.success("微信注册成功");
-            Log.e("TAG", "微信初始化结果:" + re);
-        } catch (Exception ex) {
-            result.error("微信注册失败", "-1", ex.toString());
-            isInited = false;
+        } else {
+            result.error("微信注册失败", "-1", "wx.registerApp失败");
         }
     }
 
@@ -152,6 +148,7 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
                     } else if (!TextUtils.isEmpty(imgPath)) {
                         thumb = BitmapFactory.decodeStream(new FileInputStream(imgUrl));
                     } else {
+                        result.error("微信分享失败", "-1", "图片不能唯恐");
                         return;
                     }
                     imgObj.imageData = compressImage(thumb, 1024, true);

@@ -46,6 +46,6 @@ public class FWXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
         */
         finish();
-        FlutterWeixinPlugin.processShareResult(baseResp.errCode);
+        FlutterWeixinPlugin.processShareResult(baseResp.errCode, baseResp.errStr);
     }
 }
