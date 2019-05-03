@@ -54,13 +54,17 @@ class _MyAppState extends State<MyApp> {
                             new FlatButton(
                                 child: new Text('初始化'),
                                 onPressed: () {
-                                    FlutterWeixin.init();
+                                    FlutterWeixin.init().then((result){
+
+                                    }).catchError((err){
+
+                                    });
                                 },
                             ),
                             new FlatButton(
                                 child: new Text('分享给好友'),
                                 onPressed: () {
-                                    FlutterWeixin.shareToSession(title : "friend test title", description: "friend test desciption", imgUrl: imgUrl).then((result) {
+                                    FlutterWeixin.shareToSession(title : "friend test title", description: "friend test desciption", imgUrl: null).then((result) {
                                         print("微信分享成功");
                                     }).catchError((err) {
                                         print("微信分享失败 $err");
@@ -70,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                             new FlatButton(
                                 child: new Text('分享到朋友圈'),
                                 onPressed: () {
-                                    FlutterWeixin.shareToTimeline(title : "pyq test title", description: "pyq test desciption", imgUrl: null).then((result) {
+                                    FlutterWeixin.shareToTimeline(title : "pyq test title", description: "pyq test desciption", imgUrl: imgUrl).then((result) {
                                         print("微信分享成功");
                                     }).catchError((err) {
                                         print("微信分享失败 $err");
