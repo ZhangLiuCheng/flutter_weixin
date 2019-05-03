@@ -4,14 +4,31 @@
 
 ## Getting Started
 
-一.添加分享结果监听, WXEntryActivity只要继承FWXEntryActivity即可，无须在实现IWXAPIEventHandler。
-<activity
-    android:name="xxxx.wxapi.WXEntryActivity"
-    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-    android:exported="true"
-    android:taskAffinity="net.sourceforge.simcpux"
-    android:launchMode="singleTask">
-</activity>
+一.添加分享结果监听
+    1.android添加方式 WXEntryActivity只要继承FWXEntryActivity即可，无须在实现IWXAPIEventHandler。
+
+    <activity
+        android:name="xxxx.wxapi.WXEntryActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:exported="true"
+        android:taskAffinity="net.sourceforge.simcpux"
+        android:launchMode="singleTask">
+    </activity>
+
+
+    2.ios添加方式，除了基本按照文章上配置还需添加以下几个方法
+
+    - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+        return  [FlutterWeixinPlugin handleOpenURL:url];
+    }
+
+    - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+        return  [FlutterWeixinPlugin handleOpenURL:url];
+    }
+
+    - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
+        return  [FlutterWeixinPlugin handleOpenURL:url];
+    }
 
 二.使用
 
@@ -52,4 +69,4 @@
         });
 
 三.说明
-    ios正在对接中。flutter插件qq群 176880648
+    时间比较紧，只抽了基本方法，有兴趣的可以一起加入，flutter插件qq群 176880648
