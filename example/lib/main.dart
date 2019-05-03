@@ -76,7 +76,18 @@ class _MyAppState extends State<MyApp> {
                                         print("微信分享失败 $err");
                                     });
                                 },
-                            )
+                            ),
+
+                            new FlatButton(
+                                child: new Text('分享网页'),
+                                onPressed: () {
+                                    FlutterWeixin.shareToSession(title : "test title", description: "test desciption", webUrl: "https://www.baidu.com", webImgUrl: imgUrl).then((result) {
+                                        print("微信分享成功");
+                                    }).catchError((err) {
+                                        print("微信分享失败 $err");
+                                    });
+                                },
+                            ),
                         ],
                     )
                 ),

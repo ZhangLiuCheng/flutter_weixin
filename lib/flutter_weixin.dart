@@ -15,13 +15,19 @@ class FlutterWeixin {
     return await _channel.invokeMethod("init", {"wxAppId" : "wx0a5d51592ca9e6dd"});
   }
 
-  static Future shareToSession({String title, String description, String imgPath, String imgUrl}) async {
-    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl};
+  static Future shareToSession({String title, String description, String imgPath, String imgUrl,
+    String webUrl, String webImgUrl, String webImgPath}) async {
+
+    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl,
+      "webUrl" : webUrl, "webImgUrl" : webImgUrl, "webImgPath" : webImgPath};
     return await _channel.invokeMethod('shareToSession', param);
   }
 
-  static Future shareToTimeline({String title, String description, String imgPath, String imgUrl}) async {
-    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl};
+  static Future shareToTimeline({String title, String description, String imgPath, String imgUrl,
+    String webUrl, String webImgUrl, String webImgPath}) async {
+
+    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl,
+      "webUrl" : webUrl, "webImgUrl" : webImgUrl, "webImgPath" : webImgPath};
     return await _channel.invokeMethod('shareToTimeline', param);
   }
 }
