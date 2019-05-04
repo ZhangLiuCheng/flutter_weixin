@@ -30,6 +30,11 @@
         return  [FlutterWeixinPlugin handleOpenURL:url];
     }
 
+    注意：不知道是不是我这边环境问题还是什么原因，引用的时候提示找不到WechatOpenSDK库
+        解决方法是在对应ios工程Podfile最下面添加下面两句话可以解决，具体什么原因还不清楚，知道的同学麻烦告知下
+        source 'https://github.com/CocoaPods/Specs.git'
+        pod 'WechatOpenSDK'
+
 二.使用
 
     1.初始化
