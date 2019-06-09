@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 
@@ -11,22 +12,22 @@ class FlutterWeixin {
     return version;
   }
 
-  static Future init() async {
-    return await _channel.invokeMethod("init", {"wxAppId" : "wx0a5d51592ca9e6dd"});
+  static Future init(wxAppId) async {
+    return await _channel.invokeMethod("init", {"wxAppId" : wxAppId});
   }
 
-  static Future shareToSession({String title, String description, String imgPath, String imgUrl,
+  static Future shareToSession({String title, String description, String imgPath, String imgUrl, Uint8List imgData,
     String webUrl, String webImgUrl, String webImgPath}) async {
 
-    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl,
+    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl": imgUrl, "imgData": imgData,
       "webUrl" : webUrl, "webImgUrl" : webImgUrl, "webImgPath" : webImgPath};
     return await _channel.invokeMethod('shareToSession', param);
   }
 
-  static Future shareToTimeline({String title, String description, String imgPath, String imgUrl,
+  static Future shareToTimeline({String title, String description, String imgPath, String imgUrl, Uint8List imgData,
     String webUrl, String webImgUrl, String webImgPath}) async {
 
-    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl,
+    Map param = {"title" : title, "description" : description, "imgPath": imgPath, "imgUrl" : imgUrl, "imgData": imgData,
       "webUrl" : webUrl, "webImgUrl" : webImgUrl, "webImgPath" : webImgPath};
     return await _channel.invokeMethod('shareToTimeline', param);
   }

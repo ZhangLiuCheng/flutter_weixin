@@ -29,7 +29,7 @@ static bool isInited;
 }
 
 - (void)onResp:(BaseResp*)resp {
-    NSLog(@"onResp =========  %@ -- %d", resp, resp.errCode);
+//    NSLog(@"onResp =========  %@ -- %d", resp, resp.errCode);
     if (self.flutterResult == nil) return;
     if (resp.errCode == WXSuccess) {
         self.flutterResult(@"微信分享成功");
@@ -64,7 +64,7 @@ static bool isInited;
 
 - (void)regToWxWithResult:(FlutterResult)result appId:(NSString *)appId {
     isInited = [WXApi registerApp:appId];
-    NSLog(@"微信注册结果 %d", isInited);
+//    NSLog(@"微信注册结果 %d", isInited);
     if (isInited) {
         result(@"微信注册成功");
     } else {
@@ -86,14 +86,20 @@ static bool isInited;
         return;
     }
     self.flutterResult = result;
-    NSLog(@"shareToSession %@", params);
+//    NSLog(@"shareToSession %@", params);
     NSString* webUrl = [params objectForKey:@"webUrl"];
     NSString* imgUrl = [params objectForKey:@"imgUrl"];
     NSString* imgPath = [params objectForKey:@"imgPath"];
+    
+    NSData *imgData = nil;
+    FlutterStandardTypedData* flutterImgData = [params objectForKey:@"imgData"];
+    if (flutterImgData != (id)[NSNull null]) {
+        imgData = flutterImgData.data;
+    }
     if ([self isNotEmpty:webUrl]) {
         [self sharePage: result scene:scene webUrl:webUrl title:[params objectForKey:@"title"] description:[params objectForKey:@"description"] webImgUrl:[params objectForKey:@"webImgUrl"] webImgPath:[params objectForKey:@"webImgPath"]];
-    } else if ([self isNotEmpty:imgUrl] || [self isNotEmpty:imgPath]) {
-        [self shareImage:result scene:scene imgUrl:imgUrl imgPath:imgPath];
+    } else if ([self isNotEmpty:imgUrl] || [self isNotEmpty:imgPath] || imgData != nil) {
+        [self shareImage:result scene:scene imgUrl:imgUrl imgPath:imgPath imgData:imgData];
     } else {
         [self shareText:result scene:scene title:[params objectForKey:@"title"] description:[params objectForKey:@"description"]];
     }
@@ -110,7 +116,7 @@ static bool isInited;
     }
 }
 
-- (void)shareImage:(FlutterResult)result scene:(int)scene imgUrl:(NSString *)imgUrl imgPath:(NSString *)imgPath {
+- (void)shareImage:(FlutterResult)result scene:(int)scene imgUrl:(NSString *)imgUrl imgPath:(NSString *)imgPath imgData:(NSData*)imgData {
     WXImageObject *imageObject = [WXImageObject object];
     NSError *error = nil;
     NSData *imageData = nil;
@@ -118,11 +124,13 @@ static bool isInited;
        imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl] options:NSDataReadingMappedIfSafe error:&error];
     } else if ([self isNotEmpty:imgPath]) {
         imageData = [NSData dataWithContentsOfFile:imgPath options:NSDataReadingMappedIfSafe error:&error];
+    } else if (imgData != nil) {
+        imageData = imgData;
     } else {
         result([FlutterError errorWithCode:@"-1" message:@"微信分享失败" details:@"获取图片失败"]);
         return;
     }
-    if ([error code] == 0) {
+    if (error == nil || [error code] == 0) {
         imageObject.imageData = imageData;
     } else {
         result([FlutterError errorWithCode:@"-1" message:@"微信分享失败" details:error.description]);

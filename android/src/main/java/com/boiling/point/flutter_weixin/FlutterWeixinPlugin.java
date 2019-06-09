@@ -63,9 +63,9 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
             APP_ID = call.argument("wxAppId");
             this.regToWx(result);
         } else if (call.method.equals("shareToSession")) {
-            this.shareToSession(result, (Map<String, String>) call.arguments());
+            this.shareToSession(result, (Map<String, Object>) call.arguments());
         } else if (call.method.equals("shareToTimeline")) {
-            this.shareToTimeline(result, (Map<String, String>) call.arguments());
+            this.shareToTimeline(result, (Map<String, Object>) call.arguments());
         } else {
             result.notImplemented();
         }
@@ -82,33 +82,40 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
         }
     }
 
-    private void shareToSession(Result result, Map<String, String> params) {
+    private void shareToSession(Result result, Map<String, Object> params) {
         this.share(result, SendMessageToWX.Req.WXSceneSession, params);
     }
 
-    private void shareToTimeline(Result result, Map<String, String> params) {
+    private void shareToTimeline(Result result, Map<String, Object> params) {
         this.share(result, SendMessageToWX.Req.WXSceneTimeline, params);
     }
 
-    private void share(final Result result, final int scene, final Map<String, String> params) {
+    private void share(final Result result, final int scene, final Map<String, Object> params) {
         Log.e("TAG", "========>" + params);
         if (!isInited) {
             result.error("微信分享失败", "-1", "FlutterWeixin没有初始化");
             return;
         }
         FlutterWeixinPlugin.sResult = result;
+        String title = (String)params.get("title");
+        String description = (String)params.get("description");
+        String webImgUrl = (String)params.get("webImgUrl");
+        String webImgPath = (String)params.get("webImgPath");
 
-        final String webUrl = params.get("webUrl");
-        final String imgUrl = params.get("imgUrl");
-        final String imgPath = params.get("imgPath");
+        String webUrl = (String) params.get("webUrl");
+        String imgUrl = (String) params.get("imgUrl");
+        String imgPath = (String) params.get("imgPath");
+        byte[] imgData = null;
+        if (params.containsKey("imgData")) {
+            imgData = (byte[]) params.get("imgData");
+        }
 
         if (!TextUtils.isEmpty(webUrl)) {
-            sharePage(result, scene, webUrl, params.get("title"), params.get("description"),
-                    params.get("webImgUrl"), params.get("webImgPath"));
-        } else if (!TextUtils.isEmpty(imgUrl) || !TextUtils.isEmpty(imgPath)) {
-            shareImage(result, scene, imgUrl, imgPath);
+            sharePage(result, scene, webUrl, title, description, webImgUrl, webImgPath);
+        } else if (!TextUtils.isEmpty(imgUrl) || !TextUtils.isEmpty(imgPath) || null != imgData) {
+            shareImage(result, scene, imgUrl, imgPath, imgData);
         } else {
-            shareText(result, scene, params.get("title"), params.get("description"));
+            shareText(result, scene, title, description);
         }
     }
 
@@ -129,7 +136,8 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
         }
     }
 
-    private void shareImage(final Result result, final int scene, final String imgUrl, final String imgPath) {
+    private void shareImage(final Result result, final int scene, final String imgUrl,
+                            final String imgPath, final byte[] imgData) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -145,13 +153,16 @@ public class FlutterWeixinPlugin implements MethodCallHandler {
                     Bitmap thumb;
                     if (!TextUtils.isEmpty(imgUrl)) {
                         thumb = BitmapFactory.decodeStream(new URL(imgUrl).openStream());
+                        imgObj.imageData = compressImage(thumb, 1024, true);
                     } else if (!TextUtils.isEmpty(imgPath)) {
                         thumb = BitmapFactory.decodeStream(new FileInputStream(imgUrl));
+                        imgObj.imageData = compressImage(thumb, 1024, true);
+                    } else if (null != imgData) {
+                        imgObj.imageData = imgData;
                     } else {
-                        result.error("微信分享失败", "-1", "图片不能唯恐");
+                        result.error("微信分享失败", "-1", "图片不能为空");
                         return;
                     }
-                    imgObj.imageData = compressImage(thumb, 1024, true);
                     boolean reqResult = sApi.sendReq(req);
                     if (reqResult != true) {
                         result.error("微信分享失败", "-1", "sendReq为false");
