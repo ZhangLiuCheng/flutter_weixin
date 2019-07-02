@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2b27367d-99aa-4eab-9646-03eee3d14621" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_weixin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_weixin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
@@ -100,17 +98,17 @@
         <counts>
           <entry key="dart" value="1322" />
           <entry key="m" value="3" />
-          <entry key="md" value="658" />
+          <entry key="md" value="686" />
           <entry key="podspec" value="4" />
-          <entry key="yaml" value="32" />
+          <entry key="yaml" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Dart" value="1322" />
           <entry key="ObjectiveC" value="3" />
-          <entry key="PLAIN_TEXT" value="662" />
-          <entry key="YAML" value="32" />
+          <entry key="PLAIN_TEXT" value="690" />
+          <entry key="YAML" value="33" />
         </counts>
       </usages-collector>
     </session>
@@ -138,20 +136,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pubspec.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-281">
-              <caret line="1" column="126" selection-start-line="1" selection-start-column="126" selection-end-line="1" selection-end-column="126" />
+            <state relative-caret-position="30">
+              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CHANGELOG.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+            <state relative-caret-position="15">
+              <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -159,8 +157,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="56" column="17" selection-start-line="56" selection-start-column="8" selection-end-line="56" selection-end-column="17" />
+            <state relative-caret-position="303">
+              <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -184,10 +182,10 @@
         <option value="$PROJECT_DIR$/example/ios/Podfile" />
         <option value="$PROJECT_DIR$/ios/flutter_weixin.podspec" />
         <option value="$PROJECT_DIR$/example/lib/main.dart" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/lib/flutter_weixin.dart" />
-        <option value="$PROJECT_DIR$/pubspec.yaml" />
+        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/CHANGELOG.md" />
+        <option value="$PROJECT_DIR$/pubspec.yaml" />
       </list>
     </option>
   </component>
@@ -259,7 +257,7 @@
     <frame x="0" y="23" width="1280" height="737" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23505655" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23505655" />
       <window_info id="Captures" order="1" side_tool="true" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
@@ -274,7 +272,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="4" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.329582" />
-      <window_info anchor="bottom" id="Terminal" order="6" visible="true" weight="0.3279743" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.3279743" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
@@ -407,24 +405,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-281">
-          <caret line="1" column="126" selection-start-line="1" selection-start-column="126" selection-end-line="1" selection-end-column="126" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="56" column="17" selection-start-line="56" selection-start-column="8" selection-end-line="56" selection-end-column="17" />
+        <state relative-caret-position="303">
+          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CHANGELOG.md">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
         </state>
       </provider>
     </entry>

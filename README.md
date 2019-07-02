@@ -76,4 +76,5 @@
         });
 
 三.说明
-    时间比较紧，只抽了基本分享方法，有兴趣的可以一起加入，flutter插件qq群 176880648
+    1.插件源码 https://github.com/ZhangLiuCheng/flutter_weixin
+    2.时间比较紧，只抽了基本分享方法，有兴趣的可以一起加入，flutter插件qq群 176880648
