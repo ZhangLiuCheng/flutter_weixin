@@ -1,5 +1,5 @@
 name: flutter_weixin
-description: 添加截屏分享功能
+description: WeChat sharing function, support WeChat circle of friends and WeChat friends, share pictures, text and web pages.
 version: 0.0.5
 author: zhangliucheng<414616504@qq.com>
 homepage: https://bestcircler.com
