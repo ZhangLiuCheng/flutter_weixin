@@ -38,9 +38,9 @@
 二.使用
 
     1.初始化
-        FlutterWeixin.init();
+        FlutterWeixin.init(wxId);
         或
-        FlutterWeixin.init().then((result) {
+        FlutterWeixin.init(wxId).then((result) {
 
         }).catchError((err){
 
@@ -53,10 +53,12 @@
         FlutterWeixin.shareToTimeline(title : "pyq test title");
 
     4.分享图片到好友
-        FlutterWeixin.shareToSession(imgUrl: "图片网络地址" (或imgPath: "图片FilePath"));
+        FlutterWeixin.shareToSession(imgUrl: "图片网络地址" (或imgPath: "图片FilePath" 或imgData: Uint8List));
+        Uint8List 截屏的数据
 
     5.分享图片到朋友圈
-        FlutterWeixin.shareToTimeline(imgUrl: "图片网络地址" (或imgPath: "图片FilePath"));
+        FlutterWeixin.shareToTimeline(imgUrl: "图片网络地址" (或imgPath: "图片FilePath" 或imgData: Uint8List));
+        Uint8List 截屏的数据
 
      4.分享网页到好友
         FlutterWeixin.shareToSession(title : "test title", description: "test desciption", webUrl: "https://www.baidu.com",
@@ -74,4 +76,4 @@
         });
 
 三.说明
-    时间比较紧，只抽了基本方法，有兴趣的可以一起加入，flutter插件qq群 176880648
+    时间比较紧，只抽了基本分享方法，有兴趣的可以一起加入，flutter插件qq群 176880648
